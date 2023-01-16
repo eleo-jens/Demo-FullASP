@@ -31,5 +31,16 @@ namespace Demo_ASP.Handlers
                 adresse = entity.pass
             };
         }
+
+        public static SpectacleListItem ToListItem(this Demo_BLL.Entities.Spectacle entity)
+        {
+            if (entity is null) return null;
+            return new SpectacleListItem()
+            {
+                id = entity.id,
+                nom = entity.nom,
+                description = entity.description
+            };
+        }
     }
 }

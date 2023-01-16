@@ -30,6 +30,8 @@ namespace Demo_ASP
             services.AddControllersWithViews();
             services.AddScoped<IClientRepository<BLLObject.Client, int>, BLLServ.ClientService>();
             services.AddScoped<IClientRepository<DALObject.Client, int>, DALServ.ClientService>();
+            services.AddScoped<ISpectacleRepository<BLLObject.Spectacle, int>, BLLServ.SpectacleService>();
+            services.AddScoped<ISpectacleRepository<DALObject.Spectacle, int>, DALServ.SpectacleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -27,7 +27,7 @@ namespace Demo_DAL.Services
                     {
                         while (reader.Read())
                         {
-                            yield return Mapper.ToClient(reader);
+                            yield return reader.ToClient();
                         }
                     }
                 }

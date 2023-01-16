@@ -40,5 +40,29 @@ namespace Demo_BLL
             };
         }
 
+        public static BLL.Spectacle ToBLL(this DAL.Spectacle entity)
+        {
+            if (entity is null) return null;
+            return new BLL.Spectacle()
+            {
+                id = entity.id,
+                nom = entity.nom,
+                description = entity.description
+            };
+        }
+
+        // transforme le client BLL en client DAL
+        public static DAL.Spectacle ToDAL(this BLL.Spectacle entity)
+        {
+            if (entity is null) return null;
+            return new DAL.Spectacle()
+            {
+                id = entity.id,
+                nom = entity.nom,
+                description = entity.description
+            };
+        }
+
+
     }
 }
