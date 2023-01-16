@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Demo_DAL.Entities
 {
     //Classe POCO
-    class Client
+    public class Client
     {
         // ON REPREND TOUTES LES COLONNES DE NOTRE DB
         // DB: INTEGER

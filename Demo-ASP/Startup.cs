@@ -1,3 +1,8 @@
+using BLLObject = Demo_BLL.Entities;
+using DALObject = Demo_DAL.Entities;
+using BLLServ = Demo_BLL.Services;
+using DALServ = Demo_DAL.Services;
+using Demo_Common.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +28,8 @@ namespace Demo_ASP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IClientRepository<BLLObject.Client, int>, BLLServ.ClientService>();
+            services.AddScoped<IClientRepository<DALObject.Client, int>, DALServ.ClientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

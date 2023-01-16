@@ -11,7 +11,7 @@ namespace Demo_DAL
     // une seule class dans 
     static class Mapper
     {
-        public static Client toClient (this IDataRecord record)
+        public static Client ToClient (this IDataRecord record)
         {
             if (record is null) return null;
             return new Client()

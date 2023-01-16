@@ -2,15 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Demo_DAL</RootNamespace>
+    <RootNamespace>Demo_BLL</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Demo-Common\Demo-Common.csproj" />
+    <ProjectReference Include="..\Demo-DAL\Demo-DAL.csproj" />
   </ItemGroup>
 
 </Project>
