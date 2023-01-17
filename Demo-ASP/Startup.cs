@@ -27,7 +27,9 @@ namespace Demo_ASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // on utiliser les services dans les controlleurs
             services.AddControllersWithViews();
+            // on risque de me demander un IClientRepository<BLLObject.Client, int>, on aura un BLLServ.ClientService
             services.AddScoped<IClientRepository<BLLObject.Client, int>, BLLServ.ClientService>();
             services.AddScoped<IClientRepository<DALObject.Client, int>, DALServ.ClientService>();
             services.AddScoped<ISpectacleRepository<BLLObject.Spectacle, int>, BLLServ.SpectacleService>();

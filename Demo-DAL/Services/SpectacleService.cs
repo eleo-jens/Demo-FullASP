@@ -1,7 +1,9 @@
 ﻿using Demo_Common.Repositories;
 using Demo_DAL.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -9,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace Demo_DAL.Services
 {
-    public class SpectacleService : ISpectacleRepository<Spectacle, int>
+    public class SpectacleService : BaseService, ISpectacleRepository<Spectacle, int>
     {
-        private string ConnectionString { get; set; } = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Theatre-DB;Integrated Security=True";
-        public bool Delete(int id)
+        //private string ConnectionString { get; set; } = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Theatre-DB;Integrated Security=True";
+       
+        public SpectacleService(IConfiguration config): base(config, "Theatre-DB")
         {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Spectacle> Get()
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -38,17 +40,66 @@ namespace Demo_DAL.Services
 
         public Spectacle Get(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"SELECT [id], [nom], [description] FROM [spectacle] WHERE [id] = @id";
+                    command.Parameters.AddWithValue("id", id);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read()) return reader.ToSpectacle();
+                        return null; 
+                    }
+                }
+            }
         }
 
         public int Insert(Spectacle entity)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SP_SpectacleAdd";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("nom", entity.nom);
+                    command.Parameters.AddWithValue("description", entity.description);
+                    connection.Open();
+                    return (int)command.ExecuteScalar();
+                }
+            }
         }
 
         public bool Update(int id, Spectacle entity)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "UPDATE [Spectacle] SET [nom] = @nom, [description] = @desc WHERE [id] = @id";
+                    command.Parameters.AddWithValue("nom", entity.nom);
+                    command.Parameters.AddWithValue("desc", entity.description);
+                    command.Parameters.AddWithValue("id", id);
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "DELETE FROM [Spectacle] WHERE [id] = @id";
+                    command.Parameters.AddWithValue("id", id);
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
         }
     }
 }

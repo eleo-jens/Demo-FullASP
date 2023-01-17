@@ -10,16 +10,17 @@ namespace Demo_BLL.Services
 {
     public class SpectacleService : ISpectacleRepository<Spectacle, int>
     {
+
+        // on doit connaitre le repository de la DAL pour accéder aux méthodes CRUD : on doit connaitre l'interface en créant un champ privé
         private readonly ISpectacleRepository<Demo_DAL.Entities.Spectacle, int> _repository;
 
+        // on instancie l'interface via un constructeur 
+        // dans les parenthèses: je demande à l'app de chercher une instance, il me fournit la zone mémoire de l'instance soit il crée une nouvelle instance via services.AppScoped 
+        // Le BLL va récupérer une instance de la DAL
         public SpectacleService(ISpectacleRepository<Demo_DAL.Entities.Spectacle, int> repository)
         {
+            // liaison entre le champ et l'instance qu'on va me fournir
             _repository = repository;
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Spectacle> Get()
@@ -29,17 +30,22 @@ namespace Demo_BLL.Services
 
         public Spectacle Get(int id)
         {
-            throw new NotImplementedException();
+            return _repository.Get(id).ToBLL();
         }
 
         public int Insert(Spectacle entity)
         {
-            throw new NotImplementedException();
+            return _repository.Insert(entity.ToDAL());
         }
 
         public bool Update(int id, Spectacle entity)
         {
-            throw new NotImplementedException();
+            return _repository.Update(id, entity.ToDAL());
+        }
+
+        public bool Delete(int id)
+        {
+            return _repository.Delete(id);
         }
     }
 }

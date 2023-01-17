@@ -1,5 +1,6 @@
 ﻿using Demo_Common.Repositories;
 using Demo_DAL.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,12 +13,15 @@ namespace Demo_DAL.Services
 {
     // fournir les fonctionnalités qui contacteront la DB, c'est lui qui fait l'ADO
     // pour obtenir le client: transforme les données SQL en client, le service appel le mapper 
-    public class ClientService : IClientRepository<Client, int>
+    public class ClientService : BaseService, IClientRepository<Client, int>
     {
-        private string ConnectionString { get; set; } = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Theatre-DB;Integrated Security=True";
+        public ClientService(IConfiguration config): base(config, "Theatre-DB")
+        {
+        }
+
         public IEnumerable<Client> Get()
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -36,7 +40,7 @@ namespace Demo_DAL.Services
 
         public Client Get(int id)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -56,7 +60,7 @@ namespace Demo_DAL.Services
         // on recuper l'id car il est aurtogénéré comme ça on le connait
         public int Insert(Client entity)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -79,7 +83,7 @@ namespace Demo_DAL.Services
         // infos provenant de l'application)
         public bool Update(int id, Client entity)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -102,7 +106,7 @@ namespace Demo_DAL.Services
 
         public bool Delete(int id)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
@@ -117,7 +121,7 @@ namespace Demo_DAL.Services
 
         public int? CheckPassword(string email, string password)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {

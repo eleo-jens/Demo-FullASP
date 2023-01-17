@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demo_Common.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace Demo_BLL.Entities
 {
     //classe logique
-    public class Client
+    public class Client : IClient
     {
         public int id { get; set; }
         public string nom { get; set; }
