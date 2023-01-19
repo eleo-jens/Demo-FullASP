@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SessionManager sessionManager;  
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,12 +26,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Spectacle" asp-action="Index">Get Spectacle</a>
                         </li>
+                        @if (sessionManager.CurrentUser is null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-controller="Client" asp-action="Login">Se connecter</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-controller="Client" asp-action="Logout">Se déconnecter</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
+        <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

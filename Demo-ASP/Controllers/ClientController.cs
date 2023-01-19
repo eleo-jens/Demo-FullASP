@@ -14,10 +14,12 @@ namespace Demo_ASP.Controllers
     public class ClientController : Controller
     {
         private readonly IClientRepository<Client, int> _services;
+        private readonly SessionManager _sessionManager;
 
-        public ClientController(IClientRepository<Client, int> services)
+        public ClientController(IClientRepository<Client, int> services, SessionManager sessionManager)
         {
             _services = services;
+            _sessionManager = sessionManager;
         }
         // GET: ClientController
         public ActionResult Index()
@@ -97,6 +99,39 @@ namespace Demo_ASP.Controllers
             {
                 return View();
             }
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(LoginForm form)
+        {
+            if (!ModelState.IsValid) return View();
+            int? id = _services.CheckPassword(form.email, form.pass);
+            if (id is null) return View();
+            // si l'user n'est pas null, je l'enregistre dans ma session
+            CurrentUser currentUser = new CurrentUser()
+            {
+                IdUser = (int)id,
+                Email = form.email,
+                LastConnexion = DateTime.Now
+            };
+            _sessionManager.CurrentUser = currentUser;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Logout()
+        {
+            _sessionManager.CurrentUser = null;
+
+            /*Attention, supprime le cookie de session en entier ! 
+             * HttpContext.Session.Clear();
+             * */
+            return RedirectToAction("Index", "Home");
         }
     }
 }

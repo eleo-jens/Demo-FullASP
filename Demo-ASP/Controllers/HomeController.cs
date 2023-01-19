@@ -1,4 +1,5 @@
 ﻿using Demo_ASP.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,6 +21,8 @@ namespace Demo_ASP.Controllers
 
         public IActionResult Index()
         {
+            // si le consentement a été enregistré sur la page alors j'enregistre "coucou les wads"
+            HttpContext.Session.SetString("TestSession", "Coucou les wads!");
             return View();
         }
 
