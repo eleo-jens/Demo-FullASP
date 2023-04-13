@@ -9,7 +9,7 @@ namespace Demo_DAL.Services
 {
     public abstract class BaseService
     {
-        // innjection de dépendance pour la configuration
+        // injection de dépendance pour la configuration
         protected readonly string _connectionString;
 
         // on passe le nom de la DB en parametre si jamais on travaille avec plusieurs DB 

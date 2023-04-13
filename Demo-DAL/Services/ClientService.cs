@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Demo_DAL.Services
 {
     // fournir les fonctionnalités qui contacteront la DB, c'est lui qui fait l'ADO
-    // pour obtenir le client: transforme les données SQL en client, le service appel le mapper 
+    // pour obtenir le client: transforme les données SQL en client, le service appelle le mapper 
     public class ClientService : BaseService, IClientRepository<Client, int>
     {
         public ClientService(IConfiguration config): base(config, "Theatre-DB")
